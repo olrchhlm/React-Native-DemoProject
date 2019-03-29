@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import MyModule from "./MyModule";
 
 export default class HomeScreen extends React.Component {
@@ -10,17 +10,8 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { anotherNumber: 1, myModuleVisible: false };
+    this.state = { myModuleVisible: false };
   }
-  startInterval = () => setInterval(() => this.updateNumber(), 1000);
-
-  updateNumber = () => {
-    console.log(this.state.anotherNumber);
-    let newNumber = this.state.anotherNumber + 1;
-    this.setState(() => ({
-      anotherNumber: newNumber
-    }));
-  };
 
   makeMyModuleVisible = () => {
     this.setState(oldState => ({
@@ -31,26 +22,34 @@ export default class HomeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-        <Text style={styles.headline}>TEST-APP</Text>
-        <Button title={"Go to Profiles"} onPress={() => navigate("Profile")} />
+      <ScrollView>
         <View style={styles.container}>
-          <View>
-            <Text>{this.state.anotherNumber}</Text>
+          <Text style={styles.headlineH1}>TEST-APP</Text>
+
+          <View style={styles.buttonContainer}>
             <Button
-              title={"Starte den Intervall"}
-              onPress={this.startInterval}
+              title={"Go to Profiles"}
+              onPress={() => navigate("Profile")}
             />
           </View>
-          <View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title={"Go to Interval"}
+              onPress={() => navigate("Interval")}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
             <Button
               title={"Mach das Modul sichtbar"}
               onPress={this.makeMyModuleVisible}
             />
             {this.state.myModuleVisible ? <MyModule /> : null}
           </View>
+          <Text style={styles.headlineH2}>
+            Hier kann noch mehr Content sein
+          </Text>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -58,13 +57,23 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    backgroundColor: "white",
+    backgroundColor: "#e5e5e5",
     alignItems: "center",
     justifyContent: "center"
   },
-  headline: {
+  headlineH1: {
     fontSize: 50,
     color: "black",
     fontWeight: "bold"
+  },
+  headlineH2: {
+    fontSize: 30,
+    color: "black"
+  },
+  buttonContainer: {
+    backgroundColor: "white",
+    width: "90%",
+    borderRadius: 5,
+    marginTop: 5
   }
 });
